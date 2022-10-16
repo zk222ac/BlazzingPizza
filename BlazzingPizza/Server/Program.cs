@@ -4,13 +4,20 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Options;
+using static IdentityModel.ClaimComparer;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<ApplicationDbContext>(options => {
+      options.UseSqlServer(connectionString);
+      options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+});
+   
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -26,6 +33,26 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
+
+// Initialize the database
+var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+using (var scope = scopeFactory.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    if (!db.Database.EnsureCreated())
+    {
+        try
+        {
+            SeedData.Initialize(db);
+        }
+        catch(Exception ex)
+        {
+            throw new Exception();
+        }
+        
+    }
+  
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
