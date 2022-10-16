@@ -1,4 +1,6 @@
-﻿namespace BlazingPizza;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BlazingPizza;
 
 /// <summary>
 /// Represents a pre-configured template for a pizza a user can order
@@ -9,6 +11,7 @@ public class PizzaSpecial
 
     public string? Name { get; set; }
 
+    [Column(TypeName = "decimal(18,4)")]
     public decimal BasePrice { get; set; }
 
     public string? Description { get; set; }
