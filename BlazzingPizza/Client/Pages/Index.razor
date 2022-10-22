@@ -1,9 +1,17 @@
 ﻿@page "/"
+@using BlazingPizza
 
-<PageTitle>Index</PageTitle>
+@inject HttpClient HttpClient
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
+@code{
+    List<PizzaSpecial>? pSpecials;
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+    protected override async Task OnInitializedAsync()
+    {
+        pSpecials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>("specials");
+    }
+}
+
+
+
