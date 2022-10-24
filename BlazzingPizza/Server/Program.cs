@@ -4,8 +4,14 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using BlazzingPizza.Server.Extensions;
+using Microsoft.AspNetCore.HttpOverrides;
+//using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Logger Service
+//LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -24,6 +30,11 @@ builder.Services.AddIdentityServer()
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
+
+
+builder.Services.ConfigureLoggerService();
+builder.Services.ConfigureCors();
+builder.Services.ConfigureIISIntegration();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -67,7 +78,14 @@ app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.All
+});
+
 app.UseRouting();
+
+app.UseCors("CorsPolicy");
 
 app.UseIdentityServer();
 app.UseAuthentication();
