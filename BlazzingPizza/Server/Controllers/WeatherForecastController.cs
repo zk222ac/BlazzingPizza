@@ -1,4 +1,4 @@
-using BlazzingPizza.Shared;
+using BlazzingPizza.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

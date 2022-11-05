@@ -1,4 +1,4 @@
-﻿namespace BlazingPizza;
+﻿namespace BlazzingPizza.Shared.Models;
 
 public class UserInfo
 {

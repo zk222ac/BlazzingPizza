@@ -1,4 +1,4 @@
-﻿namespace BlazingPizza.Shared;
+﻿namespace BlazzingPizza.Shared.Models;
 
 public class NotificationSubscription
 {

@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using BlazzingPizza.Server.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
+using BlazzingPizza.Server.Data.Repositories;
 //using NLog;
+//using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +33,10 @@ builder.Services.AddIdentityServer()
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
 
+// Add IPizzaSpecialRep Service
+builder.Services.AddScoped<IPizzaSpecialRepo, PizzaSpecialRepo>();
+// Add Automapper service
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureCors();
@@ -90,8 +96,7 @@ app.UseCors("CorsPolicy");
 app.UseIdentityServer();
 app.UseAuthentication();
 app.UseAuthorization();
-
-
+app.MapPizzaApi();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");

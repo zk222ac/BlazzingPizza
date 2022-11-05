@@ -1,10 +1,10 @@
-﻿using BlazingPizza.Shared;
-using BlazingPizza;
+﻿using BlazingPizza;
 using BlazzingPizza.Server.Models;
 using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using BlazzingPizza.Shared.Models;
 
 namespace BlazzingPizza.Server.Data
 {
@@ -21,7 +21,7 @@ namespace BlazzingPizza.Server.Data
 
         public DbSet<PizzaSpecial>? Specials { get; set; }
 
-        public DbSet<Topping>?  Toppings { get; set; }
+        public DbSet<Topping>? Toppings { get; set; }
 
         public DbSet<NotificationSubscription>? NotificationSubscriptions { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

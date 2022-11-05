@@ -1,4 +1,4 @@
-namespace BlazzingPizza.Shared
+namespace BlazzingPizza.Shared.Models
 {
     public class WeatherForecast
     {
