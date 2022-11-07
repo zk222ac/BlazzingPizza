@@ -1,15 +1,17 @@
 ﻿@page "/"
 @using BlazingPizza
+@using BlazzingPizza.Shared.Dtos.PizzaSpecial
 
 @inject HttpClient HttpClient
 
 
 @code{
-    List<PizzaSpecial>? pSpecials;
-
+    // List<PizzaSpecial>? pSpecials;
+    IEnumerable<PizzaSpecialReadDto> pSpecials;
     protected override async Task OnInitializedAsync()
     {
-        pSpecials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>("specials");
+       // pSpecials = await HttpClient.GetFromJsonAsync<List<PizzaSpecial>>("specials");
+        pSpecials = await HttpClient.GetFromJsonAsync<IEnumerable<PizzaSpecialReadDto>>("api/specials");
     }
 }
 

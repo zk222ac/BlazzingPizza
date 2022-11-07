@@ -16,7 +16,7 @@ namespace BlazzingPizza.Server.Extensions
 
             //});
             // Get Specials 
-            app.MapGet("/specials", async (IPizzaSpecialRepo repo, IMapper mapper) =>
+            app.MapGet("api/specials", async (IPizzaSpecialRepo repo, IMapper mapper) =>
             {
                 var pSpecials = await repo.GetAllPizzaSpecials();
                 return Results.Ok(mapper.Map<IEnumerable<PizzaSpecialReadDto>>(pSpecials));

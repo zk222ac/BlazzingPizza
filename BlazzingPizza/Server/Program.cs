@@ -8,7 +8,7 @@ using BlazzingPizza.Server.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
 using BlazzingPizza.Server.Data.Repositories;
 //using NLog;
-//using AutoMapper;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,15 +36,12 @@ builder.Services.AddAuthentication()
 // Add IPizzaSpecialRep Service
 builder.Services.AddScoped<IPizzaSpecialRepo, PizzaSpecialRepo>();
 // Add Automapper service
-//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.ConfigureLoggerService();
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
-
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
 var app = builder.Build();
 // Initialize the database
 var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
@@ -65,7 +62,6 @@ using (var scope = scopeFactory.CreateScope())
     }
 
 }
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -90,9 +86,7 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 });
 
 app.UseRouting();
-
 app.UseCors("CorsPolicy");
-
 app.UseIdentityServer();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -100,5 +94,4 @@ app.MapPizzaApi();
 app.MapRazorPages();
 app.MapControllers();
 app.MapFallbackToFile("index.html");
-
 app.Run();
